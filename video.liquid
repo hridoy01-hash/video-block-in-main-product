@@ -53,27 +53,24 @@
     {% endif %}
     <div class="swiper">
       <div class="swiper-wrapper">
-        
-        {% comment %} video show for indivdual product with use metafield and metaobject {% endcomment %}
-        
-        {% assign list_videos = product.metafields.custom.review_videos.value %}
-        {% for item in list_videos.videos.value %}
-          <div class="swiper-slide video__item">
-            {{ item | video_tag: image_size: '200x', autoplay: false, controls: true }}
-            <div class="video__play-icon">
-              {% render 'all-icons', name: 'play' %}
+        {% if block.settings.show_metafield_video %}
+          {% comment %} video show for indivdual product with use metafield and metaobject {% endcomment %}
+          {% assign list_videos = product.metafields.custom.review_videos.value %}
+          {% for item in list_videos.videos.value %}
+            <div class="swiper-slide video__item">
+              {{ item | video_tag: image_size: '200x', autoplay: false, controls: true }}
+              <div class="video__play-icon">
+                {% render 'all-icons', name: 'play' %}
+              </div>
             </div>
-          </div>
-        {% endfor %}
-  
-        {% comment %} video show for all product with block video {% endcomment %}
-  
-        {% comment %}
+          {% endfor %}
+        {% else %}
+          {% comment %} video show for all product with block video {% endcomment %}
           {% for i in (1..6) %}
-          {% liquid
-            capture video
-              echo 'video_' | append: i
-            endcapture
+            {% liquid
+              capture video
+                echo 'video_' | append: i
+              endcapture
             %}
             <div class="swiper-slide video__item">
               {% if block.settings[video] %}
@@ -84,7 +81,7 @@
               </div>
             </div>
           {% endfor %}
-        {% endcomment %}
+        {% endif %}
       </div>
     </div>
     <div class="swiper-scrollbar swiper-scrollbar_Videoslider"></div>
@@ -150,6 +147,7 @@
   
     });
   </script>
+{% comment %} this block schema use main-product.liquid schema block settings {% endcomment %}
 {% schema %}  
 {
   "name": "Video",
