@@ -1,152 +1,154 @@
 <style>
-    .videos-{{ section.id }}{
-      position: relative;
-      padding-top: 20px;
-    }
-    .video__title{
-      text-align: center;
-      margin: 0 0 12px;
-    }
-    .video__title h4 {
-        font-weight: 500;
-        font-size: 18px;
-        color: #000;
-    }
-    .videos-{{ section.id }} .swiper-scrollbar_Videoslider{
-      position: relative;
-      margin-block-start: 25px;
-    }
-    .videos-{{ section.id }} .swiper-slide video{
-      border-radius: 8px;
-      width: 100%;
-      max-width: 100%;
-      height: 255px!important;
-      max-height: 255px;
-      object-fit: cover;
-    }
-    .video__play-icon{
-      position: absolute;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-    }
-    .videos-{{ section.id }} .swiper-slide svg{
-      position: absolute;
-      top: 50%;
-      left: 50%;
-      transform: translate(-50%,-50%);
-      pointer-events: none;
-    }
-    .videos-{{ section.id }} .swiper-scrollbar-drag {
-      background: linear-gradient(42deg, rgb(238, 115, 115), rgb(238, 109, 115) 4%, rgb(238, 109, 115) 6%, rgb(254, 184, 129) 100%, rgb(254, 207, 135) 100%, rgb(238, 102, 131) 100%)!important;
-    }
-    .videos-{{ section.id }} .swiper-scrollbar-drag {
-      display:block !important;
-    }
-  </style>
-  <div class="videos-{{ section.id }}">
-    {% if block.settings.video_heading != blank %}
-      <div class="video__title">
-        <h4 class="h5 medium">{{ block.settings.video_heading }}</h4>
-      </div>
-    {% endif %}
-    <div class="swiper">
-      <div class="swiper-wrapper">
-        {% if block.settings.show_metafield_video %}
-          {% comment %} video show for indivdual product with use metafield and metaobject {% endcomment %}
-          {% assign list_videos = product.metafields.custom.review_videos.value %}
-          {% for item in list_videos.videos.value %}
-            <div class="swiper-slide video__item">
-              {{ item | video_tag: image_size: '200x', autoplay: false, controls: true }}
-              <div class="video__play-icon">
-                {% render 'all-icons', name: 'play' %}
-              </div>
-            </div>
-          {% endfor %}
-        {% else %}
-          {% comment %} video show for all product with block video {% endcomment %}
-          {% for i in (1..6) %}
-            {% liquid
-              capture video
-                echo 'video_' | append: i
-              endcapture
-            %}
-            <div class="swiper-slide video__item">
-              {% if block.settings[video] %}
-                {{ block.settings[video] | video_tag: image_size: '300x', autoplay: false, loop: true, controls: false }}
-              {% endif %}
-              <div class="video__play-icon">
-                {% render 'all-icons', name: 'play' %}
-              </div>
-            </div>
-          {% endfor %}
-        {% endif %}
-      </div>
+  .videos-{{ section.id }}{
+    position: relative;
+    padding-top: 20px;
+  }
+  .video__title{
+    text-align: center;
+    margin: 0 0 12px;
+  }
+  .video__title h4 {
+    font-weight: 500;
+    font-size: 18px;
+    color: #000;
+  }
+  .videos-{{ section.id }} .swiper-scrollbar_Videoslider{
+    position: relative;
+    margin-block-start: 25px;
+  }
+  .videos-{{ section.id }} .swiper-slide video{
+    border-radius: 8px;
+    width: 100%;
+    max-width: 100%;
+    height: 255px!important;
+    max-height: 255px;
+    object-fit: cover;
+  }
+  .video__play-icon{
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+  }
+  .videos-{{ section.id }} .swiper-slide svg{
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%,-50%);
+    pointer-events: none;
+  }
+  .videos-{{ section.id }} .swiper-scrollbar-drag {
+    background: linear-gradient(42deg, rgb(238, 115, 115), rgb(238, 109, 115) 4%, rgb(238, 109, 115) 6%, rgb(254, 184, 129) 100%, rgb(254, 207, 135) 100%, rgb(238, 102, 131) 100%)!important;
+  }
+  .videos-{{ section.id }} .swiper-scrollbar-drag {
+    display:block !important;
+  }
+</style>
+<div class="videos-{{ section.id }}">
+  {% if block.settings.video_heading != blank %}
+    <div class="video__title">
+      <h4 class="h5 medium">{{ block.settings.video_heading }}</h4>
     </div>
-    <div class="swiper-scrollbar swiper-scrollbar_Videoslider"></div>
+  {% endif %}
+  <div class="swiper">
+    <div class="swiper-wrapper">
+      {% if block.settings.show_metafield_video %}
+        {% comment %} video show for indivdual product with use metafield and metaobject {% endcomment %}
+        {% assign list_videos = product.metafields.custom.review_videos.value %}
+        {% for item in list_videos.videos.value %}
+          <div class="swiper-slide video__item">
+            {{ item | video_tag: image_size: '200x', autoplay: false, controls: true }}
+            <div class="video__play-icon">
+              {% render 'all-icons', name: 'play' %}
+            </div>
+          </div>
+        {% endfor %}
+      {% else %}
+        {% comment %} video show for all product with block video {% endcomment %}
+        {% for i in (1..6) %}
+          {% liquid
+            capture video
+              echo 'video_' | append: i
+            endcapture
+          %}
+          <div class="swiper-slide video__item">
+            {% if block.settings[video] %}
+              {{ block.settings[video] | video_tag: image_size: '300x', autoplay: false, loop: true, controls: false }}
+            {% endif %}
+            <div class="video__play-icon">
+              {% render 'all-icons', name: 'play' %}
+            </div>
+          </div>
+        {% endfor %}
+      {% endif %}
+    </div>
   </div>
-  
-  <script>
-    document.addEventListener("DOMContentLoaded", (event) => {
-      new Swiper(".videos-{{ section.id }} .swiper", {
-        slidesPerView: 2.2,
-        spaceBetween: 10,
-        freeMode: true,
-        mousewheelControl: true,
-        mousewheel: {
-          releaseOnEdges: true,
+  {% if block.settings.video_slider_indicator %}
+    <div class="swiper-scrollbar swiper-scrollbar_Videoslider"></div>
+  {% endif %}
+</div>
+
+<script>
+  document.addEventListener("DOMContentLoaded", (event) => {
+    new Swiper(".videos-{{ section.id }} .swiper", {
+      slidesPerView: 2.2,
+      spaceBetween: 10,
+      freeMode: true,
+      mousewheelControl: true,
+      mousewheel: {
+        releaseOnEdges: true,
+      },
+      breakpoints: {
+        769: {
+          slidesPerView: 2.5,
+          spaceBetween: 8,
         },
-        breakpoints: {
-          769: {
-            slidesPerView: 2.5,
-            spaceBetween: 8,
-          },
-          1024: {
-            slidesPerView: 3,
-            spaceBetween: 10,
-          },
-          1200: {
-            slidesPerView: 2.4,
-            spaceBetween: 12,
-          }
+        1024: {
+          slidesPerView: 3,
+          spaceBetween: 10,
         },
-        scrollbar: {
-          el: ".swiper-scrollbar_Videoslider",
-          hide: false,
-        },
-      })
-  
-  
-      const videoItems = document.querySelectorAll(".video__item");
-  
-      videoItems.forEach(item => {
-        const video = item.querySelector("video");
-        const icon = item.querySelector(".video__play-icon");
-  
-        // Play video and hide the icon on click
-        icon.addEventListener("click", () => {
-          video.play();
-          icon.style.display = 'none';
-          video.setAttribute('controls', true);
-        });
-  
-        // Show the play icon when the video is paused
-        video.addEventListener("pause", () => {
-          icon.style.display = 'block';
-          video.removeAttribute('controls');
-        });
-  
-        // Optionally, hide the play icon when the video ends
-        video.addEventListener("ended", () => {
-          icon.style.display = 'block';
-          video.removeAttribute('controls');
-        });
+        1200: {
+          slidesPerView: 2.4,
+          spaceBetween: 12,
+        }
+      },
+      scrollbar: {
+        el: ".swiper-scrollbar_Videoslider",
+        hide: false,
+      },
+    })
+
+
+    const videoItems = document.querySelectorAll(".video__item");
+
+    videoItems.forEach(item => {
+      const video = item.querySelector("video");
+      const icon = item.querySelector(".video__play-icon");
+
+      // Play video and hide the icon on click
+      icon.addEventListener("click", () => {
+        video.play();
+        icon.style.display = 'none';
+        video.setAttribute('controls', true);
       });
-  
-  
+
+      // Show the play icon when the video is paused
+      video.addEventListener("pause", () => {
+        icon.style.display = 'block';
+        video.removeAttribute('controls');
+      });
+
+      // Optionally, hide the play icon when the video ends
+      video.addEventListener("ended", () => {
+        icon.style.display = 'block';
+        video.removeAttribute('controls');
+      });
     });
-  </script>
+
+
+  });
+</script> 
 {% comment %} this block schema use main-product.liquid schema block settings {% endcomment %}
 {% schema %}  
 {
@@ -169,6 +171,12 @@
           "label": "Show metafield video",
           "default": false,
           "info": "This option shows different videos per product"
+        },
+        {
+          "type": "checkbox",
+          "id": "video_slider_indicator",
+          "label": "Show video slider progress bar",
+          "default": true
         },
         {
           "type": "header",
@@ -205,7 +213,7 @@
           "label":"video 6"
         }
       ]
-    },
+    }, 
   ]
 }
 
