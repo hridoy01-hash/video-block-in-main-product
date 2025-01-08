@@ -53,6 +53,9 @@
     {% endif %}
     <div class="swiper">
       <div class="swiper-wrapper">
+        
+        {% comment %} video show for indivdual product with use metafield and metaobject {% endcomment %}
+        
         {% assign list_videos = product.metafields.custom.review_videos.value %}
         {% for item in list_videos.videos.value %}
           <div class="swiper-slide video__item">
@@ -63,6 +66,25 @@
           </div>
         {% endfor %}
   
+        {% comment %} video show for all product with block video {% endcomment %}
+  
+        {% comment %}
+          {% for i in (1..6) %}
+          {% liquid
+            capture video
+              echo 'video_' | append: i
+            endcapture
+            %}
+            <div class="swiper-slide video__item">
+              {% if block.settings[video] %}
+                {{ block.settings[video] | video_tag: image_size: '300x', autoplay: false, loop: true, controls: false }}
+              {% endif %}
+              <div class="video__play-icon">
+                {% render 'all-icons', name: 'play' %}
+              </div>
+            </div>
+          {% endfor %}
+        {% endcomment %}
       </div>
     </div>
     <div class="swiper-scrollbar swiper-scrollbar_Videoslider"></div>
@@ -134,47 +156,58 @@
   "settings": [],
   "blocks": [
     {
-        "type": "videos",
-        "name":"Videos",
-        "settings": [
-          {
-            "type": "text",
-            "id": "video_heading",
-            "label": "Video title",
-            "default":"Loved by 50,000+ others"
-          },
-          {
-            "type": "video",
-            "id":"video_1",
-            "label":"video 1"
-          },
-          {
-            "type": "video",
-            "id":"video_2",
-            "label":"video 2"
-          },
-          {
-            "type": "video",
-            "id":"video_3",
-            "label":"video 3"
-          },
-          {
-            "type": "video",
-            "id":"video_4",
-            "label":"video 4"
-          },
-          {
-            "type": "video",
-            "id":"video_5",
-            "label":"video 5"
-          },
-          {
-            "type": "video",
-            "id":"video_6",
-            "label":"video 6"
-          }
-        ]
-      }
+      "type": "videos",
+      "name":"Videos",
+      "settings": [
+        {
+          "type": "text",
+          "id": "video_heading",
+          "label": "Video title",
+          "default":"Loved by 50,000+ others"
+        },
+        {
+          "type": "checkbox",
+          "id": "show_metafield_video",
+          "label": "Show metafield video",
+          "default": false,
+          "info": "This option shows different videos per product"
+        },
+        {
+          "type": "header",
+          "content":"This video appearance all products"
+        },
+        {
+          "type": "video",
+          "id":"video_1",
+          "label":"video 1"
+        },
+        {
+          "type": "video",
+          "id":"video_2",
+          "label":"video 2"
+        },
+        {
+          "type": "video",
+          "id":"video_3",
+          "label":"video 3"
+        },
+        {
+          "type": "video",
+          "id":"video_4",
+          "label":"video 4"
+        },
+        {
+          "type": "video",
+          "id":"video_5",
+          "label":"video 5"
+        },
+        {
+          "type": "video",
+          "id":"video_6",
+          "label":"video 6"
+        }
+      ]
+    },
   ]
 }
 
